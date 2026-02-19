@@ -177,7 +177,11 @@ async function openCreateFromSearch(name) {
     const existing = getStudent(name);
     if (existing && existing.active) { selectPerson(name); return; }
     if (existing && !existing.active) {
-        if (confirm(`"${name}" existe pero está inactivo. ¿Reactivar?`)) {
+        const ok = await showConfirm(
+            `"${name}" existe pero está inactivo.`,
+            { title: '¿Reactivar alumno?', okLabel: 'Reactivar', okClass: 'btn-success' }
+        );
+        if (ok) {
             existing.active = true;
             selectPerson(name);
             renderAll();
@@ -186,7 +190,12 @@ async function openCreateFromSearch(name) {
         return;
     }
 
-    const packStr = prompt(`Crear alumno "${name}".\n¿Cuántas clases tiene el pack inicial? (0 si empieza sin pack)`, '0');
+    const packStr = await showPrompt(
+        `Crear alumno`,
+        `Nuevo alumno: "${name}"`,
+        'Pack inicial (clases)',
+        '0'
+    );
     if (packStr === null) return;
     const pack = Math.max(0, parseInt(packStr) || 0);
     const data = { name, pack, debt: 0, active: true };
@@ -202,18 +211,19 @@ async function openCreateFromSearch(name) {
 async function addAttendance() {
     const date = document.getElementById('classDate').value;
     const name = document.getElementById('personSearch').value.trim();
-    if (!date) return alert('Seleccioná una fecha');
-    if (!name) return alert('Seleccioná un alumno');
+    if (!date) { await showAlert('Seleccioná una fecha'); return; }
+    if (!name) { await showAlert('Seleccioná un alumno'); return; }
 
     const student = getStudent(name);
-    if (!student)        return alert('El alumno no existe. Crealo primero.');
-    if (!student.active) return alert(`${name} está inactivo. Reactivalo primero.`);
+    if (!student)        { await showAlert('El alumno no existe. Crealo primero.'); return; }
+    if (!student.active) { await showAlert(`${name} está inactivo. Reactivalo primero.`); return; }
 
     if (!attendance[date]) attendance[date] = [];
     if (attendance[date].includes(name)) {
         document.getElementById('personSearch').value = '';
         selectedPerson = '';
-        return alert(`${name} ya tiene asistencia el ${formatDate(date)}`);
+        await showAlert(`${name} ya tiene asistencia el ${formatDate(date)}`);
+        return;
     }
 
     const updates = {};
@@ -274,7 +284,7 @@ async function addStudent() {
     const pack = Math.max(0, parseInt(packInput.value) || 0);
 
     if (!name) return;
-    if (getStudent(name)) return alert('El alumno ya existe');
+    if (getStudent(name)) { await showAlert('Ya existe un alumno con ese nombre.'); return; }
 
     const data = { name, pack, debt: 0, active: true };
     const id   = await addStudentDoc(data);
@@ -289,15 +299,27 @@ async function addStudent() {
 async function toggleStudentStatus(name) {
     const student = getStudent(name);
     if (!student) return;
-    const action = student.active ? 'desactivar' : 'reactivar';
-    if (!confirm(`¿${action.charAt(0).toUpperCase() + action.slice(1)} a ${name}?`)) return;
+    const deactivating = student.active;
+    const ok = await showConfirm(
+        `${name} pasará a ${deactivating ? 'inactivo' : 'activo'}.`,
+        {
+            title: deactivating ? '¿Desactivar alumno?' : '¿Reactivar alumno?',
+            okLabel: deactivating ? 'Desactivar' : 'Reactivar',
+            okClass: deactivating ? 'btn-warning' : 'btn-success',
+        }
+    );
+    if (!ok) return;
     student.active = !student.active;
     renderAll();
     await updateStudentDoc(student.id, { active: student.active });
 }
 
 async function deleteStudent(name) {
-    if (!confirm(`¿Eliminar a ${name} permanentemente? Se borrarán también sus asistencias.`)) return;
+    const ok = await showConfirm(
+        'Se borrarán también todas sus asistencias. Esta acción no se puede deshacer.',
+        { title: `¿Eliminar a ${name}?`, okLabel: 'Eliminar', okClass: 'btn-danger' }
+    );
+    if (!ok) return;
     const student = getStudent(name);
 
     const ops = [deleteStudentDoc(student.id)];
@@ -331,7 +353,7 @@ function openRechargeModal(name) {
 
 async function confirmRecharge() {
     const amount = parseInt(document.getElementById('rechargeAmount').value);
-    if (!amount || amount < 1) return alert('Ingresá una cantidad válida');
+    if (!amount || amount < 1) { await showAlert('Ingresá una cantidad válida.'); return; }
     const student = getStudent(rechargeTarget);
     if (!student) return;
     student.pack += amount;
@@ -355,8 +377,8 @@ async function confirmPayDebt() {
     const student = getStudent(debtTarget);
     if (!student) return;
     const amount = parseInt(document.getElementById('debtPayAmount').value);
-    if (!amount || amount < 1) return alert('Ingresá una cantidad válida');
-    if (amount > student.debt) return alert(`La deuda es de ${student.debt} clase${student.debt !== 1 ? 's' : ''}. No podés saldar más de lo que debe.`);
+    if (!amount || amount < 1) { await showAlert('Ingresá una cantidad válida.'); return; }
+    if (amount > student.debt) { await showAlert(`La deuda es de ${student.debt} clase${student.debt !== 1 ? 's' : ''}. No podés saldar más de lo que debe.`); return; }
     student.debt -= amount;
     closeModal('debtModal');
     renderAll();
@@ -594,6 +616,60 @@ function renderWeeklySummary() {
     ).join('');
 }
 
+// --- Custom dialogs ---
+function showAlert(message) {
+    return new Promise(resolve => {
+        document.getElementById('alertMessage').textContent = message;
+        document.getElementById('alertModal').classList.add('show');
+        window._alertResolve = resolve;
+    });
+}
+
+function closeAlert() {
+    document.getElementById('alertModal').classList.remove('show');
+    if (window._alertResolve) { window._alertResolve(); window._alertResolve = null; }
+}
+
+function showConfirm(message, { title = '¿Estás seguro?', okLabel = 'Confirmar', okClass = 'btn-primary' } = {}) {
+    return new Promise(resolve => {
+        document.getElementById('confirmTitle').textContent    = title;
+        document.getElementById('confirmMessage').textContent  = message;
+        const btn = document.getElementById('confirmOkBtn');
+        btn.textContent = okLabel;
+        btn.className   = `${okClass} btn-sm`;
+        document.getElementById('confirmModal').classList.add('show');
+        window._confirmResolve = resolve;
+    });
+}
+
+function closeConfirm(result) {
+    document.getElementById('confirmModal').classList.remove('show');
+    if (window._confirmResolve) { window._confirmResolve(result); window._confirmResolve = null; }
+}
+
+function showPrompt(title, message, inputLabel, defaultValue = '0') {
+    return new Promise(resolve => {
+        document.getElementById('promptTitle').textContent      = title;
+        document.getElementById('promptMessage').textContent    = message;
+        document.getElementById('promptInputLabel').textContent = inputLabel;
+        const input = document.getElementById('promptInput');
+        input.value = defaultValue;
+        document.getElementById('promptModal').classList.add('show');
+        setTimeout(() => input.focus(), 50);
+        input.onkeydown = e => { if (e.key === 'Enter') closePrompt(true); };
+        window._promptResolve = resolve;
+    });
+}
+
+function closePrompt(confirmed) {
+    const value = document.getElementById('promptInput').value;
+    document.getElementById('promptModal').classList.remove('show');
+    if (window._promptResolve) {
+        window._promptResolve(confirmed ? value : null);
+        window._promptResolve = null;
+    }
+}
+
 // --- Screen helpers ---
 function showScreen(screen) {
     ['loading-screen', 'login-screen', 'app-screen'].forEach(id => {
@@ -660,4 +736,5 @@ Object.assign(window, {
     openDebtModal, confirmPayDebt,
     switchTab,
     renderAttendanceHistory, renderWeeklySummary,
+    closeAlert, closeConfirm, closePrompt,
 });

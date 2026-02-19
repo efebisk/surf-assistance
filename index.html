@@ -468,6 +468,44 @@
         </div>
     </div>
 
+    <!-- Modal: alerta -->
+    <div class="modal-overlay" id="alertModal">
+        <div class="modal">
+            <p id="alertMessage" style="font-size:0.95rem; color:var(--text); line-height:1.5;"></p>
+            <div class="modal-actions">
+                <button class="btn-primary btn-sm" onclick="closeAlert()">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: confirmación -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal">
+            <h3 id="confirmTitle"></h3>
+            <p id="confirmMessage" style="font-size:0.9rem; color:var(--text-muted); margin-bottom:4px;"></p>
+            <div class="modal-actions">
+                <button class="btn-secondary btn-sm" onclick="closeConfirm(false)">Cancelar</button>
+                <button class="btn-sm" id="confirmOkBtn" onclick="closeConfirm(true)">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: prompt -->
+    <div class="modal-overlay" id="promptModal">
+        <div class="modal">
+            <h3 id="promptTitle"></h3>
+            <p id="promptMessage" style="font-size:0.9rem; color:var(--text-muted); margin-bottom:14px;"></p>
+            <div>
+                <label id="promptInputLabel" for="promptInput"></label>
+                <input type="number" id="promptInput" min="0" style="width:100%;">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary btn-sm" onclick="closePrompt(false)">Cancelar</button>
+                <button class="btn-primary btn-sm" onclick="closePrompt(true)">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
     <script type="module" src="/src/main.js"></script>
 </body>
 </html>
