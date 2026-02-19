@@ -7,3 +7,10 @@
 
 # Claude Code
 .claude/
+
+# Env (credenciales Firebase)
+.env
+
+# Vite / npm
+node_modules/
+dist/

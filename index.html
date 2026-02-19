@@ -46,12 +46,13 @@
         button:hover { opacity: 0.85; }
         button:active { transform: scale(0.97); }
 
-        .btn-primary { background: #4361ee; color: #fff; }
-        .btn-success { background: #2ec4b6; color: #fff; }
-        .btn-danger { background: #e63946; color: #fff; font-size: 0.78rem; padding: 5px 10px; }
-        .btn-warning { background: #f4a261; color: #fff; font-size: 0.78rem; padding: 5px 10px; }
-        .btn-secondary { background: #6c757d; color: #fff; font-size: 0.78rem; padding: 5px 10px; }
-        .btn-sm { font-size: 0.78rem; padding: 5px 10px; }
+        .btn-primary  { background: #4361ee; color: #fff; }
+        .btn-success  { background: #2ec4b6; color: #fff; }
+        .btn-danger   { background: #e63946; color: #fff; font-size: 0.78rem; padding: 5px 10px; }
+        .btn-warning  { background: #f4a261; color: #fff; font-size: 0.78rem; padding: 5px 10px; }
+        .btn-secondary{ background: #6c757d; color: #fff; font-size: 0.78rem; padding: 5px 10px; }
+        .btn-debt     { background: #e63946; color: #fff; font-size: 0.78rem; padding: 5px 10px; }
+        .btn-sm       { font-size: 0.78rem; padding: 5px 10px; }
 
         .search-wrapper { position: relative; flex: 1; min-width: 180px; }
         .search-wrapper input { width: 100%; }
@@ -61,14 +62,10 @@
             border-radius: 0 0 6px 6px; max-height: 180px; overflow-y: auto;
             z-index: 10; display: none;
         }
-        .suggestions div {
-            padding: 10px 12px; cursor: pointer; font-size: 0.9rem;
-        }
+        .suggestions div { padding: 10px 12px; cursor: pointer; font-size: 0.9rem; }
         .suggestions div:hover { background: #e8edff; }
         .suggestions .new-person { color: #4361ee; font-style: italic; }
-        .suggestions .remaining-info {
-            float: right; font-size: 0.78rem; color: #888; font-style: normal;
-        }
+        .suggestions .meta-info { float: right; font-size: 0.78rem; color: #888; font-style: normal; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 8px; }
         th, td {
@@ -96,16 +93,17 @@
             display: inline-block; background: #e8edff; color: #4361ee;
             padding: 2px 8px; border-radius: 10px; font-size: 0.78rem; font-weight: 600;
         }
-        .badge-ok { background: #d4edda; color: #155724; }
-        .badge-warn { background: #fff3cd; color: #856404; }
-        .badge-danger { background: #f8d7da; color: #721c24; }
+        .badge-ok       { background: #d4edda; color: #155724; }
+        .badge-warn     { background: #fff3cd; color: #856404; }
+        .badge-danger   { background: #f8d7da; color: #721c24; }
+        .badge-debt     { background: #e63946; color: #fff; }
         .badge-inactive { background: #e2e3e5; color: #6c757d; }
 
         .status-dot {
             display: inline-block; width: 8px; height: 8px;
             border-radius: 50%; margin-right: 6px; vertical-align: middle;
         }
-        .status-dot.active { background: #2ec4b6; }
+        .status-dot.active   { background: #2ec4b6; }
         .status-dot.inactive { background: #adb5bd; }
 
         .alert-banner {
@@ -118,7 +116,6 @@
         }
 
         .actions-cell { display: flex; gap: 4px; flex-wrap: wrap; }
-
         .pack-input { width: 70px; }
 
         /* Modal */
@@ -133,22 +130,51 @@
             width: 100%; max-width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         }
         .modal h3 { margin-bottom: 14px; color: #1a1a2e; font-size: 1rem; }
-        .modal .row { margin-bottom: 10px; }
-        .modal input, .modal select { width: 100%; }
+        .modal input { width: 100%; }
         .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+        .modal-debt-info {
+            background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24;
+            padding: 10px 12px; border-radius: 6px; margin-bottom: 14px;
+            font-size: 0.88rem; font-weight: 600;
+        }
 
-        /* Responsive table wrapper */
         .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
-        /* Responsive */
+        /* Login */
+        #login-screen {
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+        }
+        #login-screen .card { width: 100%; max-width: 380px; }
+        #login-screen h1 { margin-bottom: 20px; }
+        #loginError { color: #e63946; font-size: 0.85rem; margin-bottom: 10px; display: none; }
+
+        /* Loading */
+        #loading-screen {
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 0.95rem;
+        }
+
+        /* App header */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .app-header h1 { margin: 0; text-align: left; }
+
         @media (max-width: 600px) {
             body { padding: 8px; }
             .card { padding: 12px; }
             h1 { font-size: 1.25rem; margin-bottom: 14px; }
             .row { flex-direction: column; align-items: stretch; }
             .row > * { width: 100%; }
-            .row.row-inline { flex-direction: row; }
-            button:not(.tab):not(.btn-sm):not(.btn-danger):not(.btn-warning):not(.btn-secondary) { width: 100%; }
+            button:not(.tab):not(.btn-sm):not(.btn-danger):not(.btn-warning):not(.btn-secondary):not(.btn-debt) { width: 100%; }
             th, td { padding: 7px 6px; font-size: 0.8rem; }
             .actions-cell { flex-direction: column; gap: 4px; }
             .actions-cell button { width: 100%; }
@@ -162,584 +188,168 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Control de Asistencia</h1>
 
-        <!-- Registro de asistencia -->
+    <!-- Loading -->
+    <div id="loading-screen" style="display:flex;">
+        <p>Cargando...</p>
+    </div>
+
+    <!-- Login -->
+    <div id="login-screen" style="display:none;">
         <div class="card">
-            <h2>Registrar Asistencia</h2>
-            <div class="row" style="margin-bottom: 12px;">
-                <div style="flex:1;">
-                    <label for="classDate">Fecha de la clase</label>
-                    <input type="date" id="classDate" style="width:100%;">
-                </div>
+            <h1>Control de Asistencia</h1>
+            <div style="margin-bottom:12px;">
+                <label for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" placeholder="tu@email.com" style="width:100%;">
             </div>
-            <div class="row">
-                <div class="search-wrapper">
-                    <label for="personSearch">Buscar alumno</label>
-                    <input type="text" id="personSearch" placeholder="Nombre del alumno..." autocomplete="off">
-                    <div class="suggestions" id="suggestions"></div>
-                </div>
-                <button class="btn-primary" onclick="addAttendance()">Agregar</button>
+            <div style="margin-bottom:16px;">
+                <label for="loginPassword">Contraseña</label>
+                <input type="password" id="loginPassword" style="width:100%;">
             </div>
-            <div id="dayAttendance" style="margin-top: 14px;"></div>
+            <div id="loginError"></div>
+            <button class="btn-primary" id="loginBtn" onclick="login()" style="width:100%;">Ingresar</button>
         </div>
+    </div>
 
-        <!-- Vistas -->
-        <div class="card">
-            <div class="tabs">
-                <button class="tab active" onclick="switchTab('attendance', this)">Asistencias</button>
-                <button class="tab" onclick="switchTab('students', this)">Alumnos</button>
-                <button class="tab" onclick="switchTab('weekly', this)">Semanal</button>
-                <button class="tab" onclick="switchTab('inactive', this)">Inactivos</button>
+    <!-- App -->
+    <div id="app-screen" style="display:none;">
+        <div class="container">
+            <div class="app-header">
+                <h1>Control de Asistencia</h1>
+                <button class="btn-secondary btn-sm" onclick="logout()">Salir</button>
             </div>
 
-            <!-- Historial de asistencia -->
-            <div id="tab-attendance">
-                <div>
-                    <label for="filterWeek">Filtrar por semana</label>
-                    <input type="week" id="filterWeek" onchange="renderAttendanceHistory()" style="width:100%; max-width:220px;">
-                </div>
-                <div id="attendanceHistory"></div>
-            </div>
-
-            <!-- Tabla de alumnos activos -->
-            <div id="tab-students" style="display:none;">
+            <!-- Registro de asistencia -->
+            <div class="card">
+                <h2>Registrar Asistencia</h2>
                 <div class="row" style="margin-bottom: 12px;">
                     <div style="flex:1;">
-                        <label for="newStudentName">Nuevo alumno</label>
-                        <input type="text" id="newStudentName" placeholder="Nombre completo" style="width:100%;">
+                        <label for="classDate">Fecha de la clase</label>
+                        <input type="date" id="classDate" style="width:100%;">
                     </div>
-                    <div style="min-width:100px;">
-                        <label for="newStudentPack">Pack de clases</label>
-                        <input type="number" id="newStudentPack" class="pack-input" placeholder="Ej: 10" min="0" style="width:100%;">
+                </div>
+                <div class="row">
+                    <div class="search-wrapper">
+                        <label for="personSearch">Buscar alumno</label>
+                        <input type="text" id="personSearch" placeholder="Nombre del alumno..." autocomplete="off">
+                        <div class="suggestions" id="suggestions"></div>
                     </div>
-                    <button class="btn-success" onclick="addStudent()">Crear</button>
+                    <button class="btn-primary" onclick="addAttendance()">Agregar</button>
                 </div>
-                <div class="table-wrap">
-                    <table>
-                        <thead><tr>
-                            <th>Alumno</th>
-                            <th>Restantes</th>
-                            <th>Asistidas</th>
-                            <th>Acciones</th>
-                        </tr></thead>
-                        <tbody id="studentsBody"></tbody>
-                    </table>
-                </div>
+                <div id="dayAttendance" style="margin-top: 14px;"></div>
             </div>
 
-            <!-- Resumen semanal -->
-            <div id="tab-weekly" style="display:none;">
-                <div>
-                    <label for="summaryWeek">Seleccionar semana</label>
-                    <input type="week" id="summaryWeek" onchange="renderWeeklySummary()" style="width:100%; max-width:220px;">
+            <!-- Vistas -->
+            <div class="card">
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab('attendance', this)">Asistencias</button>
+                    <button class="tab" onclick="switchTab('students', this)">Alumnos</button>
+                    <button class="tab" onclick="switchTab('weekly', this)">Semanal</button>
+                    <button class="tab" onclick="switchTab('inactive', this)">Inactivos</button>
                 </div>
-                <div class="table-wrap">
-                    <table>
-                        <thead><tr><th>Alumno</th><th>Clases esta semana</th></tr></thead>
-                        <tbody id="weeklyBody"></tbody>
-                    </table>
-                </div>
-            </div>
 
-            <!-- Alumnos inactivos -->
-            <div id="tab-inactive" style="display:none;">
-                <p style="font-size:0.85rem; color:#888; margin-bottom:10px;">Alumnos que ya no asisten. Podés reactivarlos si vuelven.</p>
-                <div class="table-wrap">
-                    <table>
-                        <thead><tr>
-                            <th>Alumno</th>
-                            <th>Restantes</th>
-                            <th>Asistidas</th>
-                            <th>Acciones</th>
-                        </tr></thead>
-                        <tbody id="inactiveBody"></tbody>
-                    </table>
+                <!-- Historial de asistencia -->
+                <div id="tab-attendance">
+                    <div>
+                        <label for="filterWeek">Filtrar por semana</label>
+                        <input type="week" id="filterWeek" onchange="renderAttendanceHistory()" style="width:100%; max-width:220px;">
+                    </div>
+                    <div id="attendanceHistory"></div>
+                </div>
+
+                <!-- Alumnos activos -->
+                <div id="tab-students" style="display:none;">
+                    <div class="row" style="margin-bottom: 12px;">
+                        <div style="flex:1;">
+                            <label for="newStudentName">Nuevo alumno</label>
+                            <input type="text" id="newStudentName" placeholder="Nombre completo" style="width:100%;">
+                        </div>
+                        <div style="min-width:100px;">
+                            <label for="newStudentPack">Pack inicial</label>
+                            <input type="number" id="newStudentPack" class="pack-input" placeholder="Ej: 10" min="0" style="width:100%;">
+                        </div>
+                        <button class="btn-success" onclick="addStudent()">Crear</button>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr>
+                                <th>Alumno</th>
+                                <th>Pack</th>
+                                <th>Deuda</th>
+                                <th>Asistidas</th>
+                                <th>Acciones</th>
+                            </tr></thead>
+                            <tbody id="studentsBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Resumen semanal -->
+                <div id="tab-weekly" style="display:none;">
+                    <div>
+                        <label for="summaryWeek">Seleccionar semana</label>
+                        <input type="week" id="summaryWeek" onchange="renderWeeklySummary()" style="width:100%; max-width:220px;">
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Alumno</th><th>Clases esta semana</th></tr></thead>
+                            <tbody id="weeklyBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Inactivos -->
+                <div id="tab-inactive" style="display:none;">
+                    <p style="font-size:0.85rem; color:#888; margin-bottom:10px;">Alumnos que ya no asisten. Podés reactivarlos si vuelven.</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr>
+                                <th>Alumno</th>
+                                <th>Pack</th>
+                                <th>Deuda</th>
+                                <th>Asistidas</th>
+                                <th>Acciones</th>
+                            </tr></thead>
+                            <tbody id="inactiveBody"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal para recargar pack -->
+    <!-- Modal: recargar pack -->
     <div class="modal-overlay" id="rechargeModal">
         <div class="modal">
-            <h3>Recargar clases</h3>
+            <h3>Recargar pack</h3>
             <p id="rechargeInfo" style="font-size:0.85rem; color:#666; margin-bottom:12px;"></p>
             <div>
-                <label for="rechargeAmount">Cantidad de clases a agregar</label>
+                <label for="rechargeAmount">Clases a agregar</label>
                 <input type="number" id="rechargeAmount" min="1" placeholder="Ej: 10">
             </div>
             <div class="modal-actions">
-                <button class="btn-secondary btn-sm" onclick="closeRechargeModal()">Cancelar</button>
+                <button class="btn-secondary btn-sm" onclick="closeModal('rechargeModal')">Cancelar</button>
                 <button class="btn-success btn-sm" onclick="confirmRecharge()">Recargar</button>
             </div>
         </div>
     </div>
 
-    <script>
-        // --- Data migration & loading ---
-        // Students: { name: string, pack: number, active: boolean }
-        let studentsData = JSON.parse(localStorage.getItem('studentsData') || 'null');
-        let attendance = JSON.parse(localStorage.getItem('attendance') || '{}');
+    <!-- Modal: cobrar deuda -->
+    <div class="modal-overlay" id="debtModal">
+        <div class="modal">
+            <h3>Cobrar deuda</h3>
+            <div class="modal-debt-info" id="debtInfo"></div>
+            <div style="margin-bottom: 12px;">
+                <label for="debtPayAmount">Clases a saldar</label>
+                <input type="number" id="debtPayAmount" min="1">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary btn-sm" onclick="closeModal('debtModal')">Cancelar</button>
+                <button class="btn-debt btn-sm" onclick="confirmPayDebt()">Cobrar</button>
+            </div>
+        </div>
+    </div>
 
-        // Migrate from old format (plain string array) if needed
-        if (!studentsData) {
-            const oldStudents = JSON.parse(localStorage.getItem('students') || '[]');
-            studentsData = oldStudents.map(name => ({
-                name: name,
-                pack: 0,
-                active: true
-            }));
-            save();
-        }
-
-        let selectedPerson = '';
-        let rechargeTarget = '';
-
-        function save() {
-            localStorage.setItem('studentsData', JSON.stringify(studentsData));
-            localStorage.setItem('attendance', JSON.stringify(attendance));
-        }
-
-        function getStudent(name) {
-            return studentsData.find(s => s.name === name);
-        }
-
-        function getActiveStudents() {
-            return studentsData.filter(s => s.active);
-        }
-
-        function getInactiveStudents() {
-            return studentsData.filter(s => !s.active);
-        }
-
-        function getTotalClasses(name) {
-            let count = 0;
-            for (const date in attendance) {
-                if (attendance[date].includes(name)) count++;
-            }
-            return count;
-        }
-
-        function getRemainingBadgeClass(remaining) {
-            if (remaining <= 0) return 'badge-danger';
-            if (remaining <= 3) return 'badge-warn';
-            return 'badge-ok';
-        }
-
-        // --- Init ---
-        function init() {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('classDate').value = today;
-
-            const isoWeek = getISOWeekString(new Date());
-            document.getElementById('filterWeek').value = isoWeek;
-            document.getElementById('summaryWeek').value = isoWeek;
-
-            renderAll();
-        }
-
-        function getISOWeekString(date) {
-            const d = new Date(date);
-            d.setHours(0, 0, 0, 0);
-            d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
-            const week1 = new Date(d.getFullYear(), 0, 4);
-            const weekNum = 1 + Math.round(((d - week1) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
-            return `${d.getFullYear()}-W${String(weekNum).padStart(2, '0')}`;
-        }
-
-        function getWeekDates(weekStr) {
-            if (!weekStr) return [];
-            const [year, week] = weekStr.split('-W').map(Number);
-            const jan4 = new Date(year, 0, 4);
-            const start = new Date(jan4);
-            start.setDate(jan4.getDate() - (jan4.getDay() || 7) + 1 + (week - 1) * 7);
-            const dates = [];
-            for (let i = 0; i < 7; i++) {
-                const d = new Date(start);
-                d.setDate(start.getDate() + i);
-                dates.push(d.toISOString().split('T')[0]);
-            }
-            return dates;
-        }
-
-        // --- Search (only active students) ---
-        const searchInput = document.getElementById('personSearch');
-        const suggestionsEl = document.getElementById('suggestions');
-
-        searchInput.addEventListener('input', function() {
-            const q = this.value.trim().toLowerCase();
-            suggestionsEl.innerHTML = '';
-            if (!q) { suggestionsEl.style.display = 'none'; return; }
-
-            const activeNames = getActiveStudents().map(s => s.name);
-            const matches = activeNames.filter(name => name.toLowerCase().includes(q));
-
-            matches.forEach(name => {
-                const student = getStudent(name);
-                const div = document.createElement('div');
-                const remaining = student.pack;
-                const badgeCls = getRemainingBadgeClass(remaining);
-                div.innerHTML = `${name} <span class="remaining-info badge ${badgeCls}">${remaining} restantes</span>`;
-                div.onclick = () => selectPerson(name);
-                suggestionsEl.appendChild(div);
-            });
-
-            if (!matches.some(s => s.toLowerCase() === q)) {
-                const div = document.createElement('div');
-                div.className = 'new-person';
-                div.textContent = `+ Crear "${this.value.trim()}"`;
-                div.onclick = () => { openCreateFromSearch(searchInput.value.trim()); };
-                suggestionsEl.appendChild(div);
-            }
-
-            suggestionsEl.style.display = suggestionsEl.children.length ? 'block' : 'none';
-        });
-
-        searchInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                const q = this.value.trim().toLowerCase();
-                const activeNames = getActiveStudents().map(s => s.name);
-                const exact = activeNames.find(s => s.toLowerCase() === q);
-                if (exact) {
-                    selectPerson(exact);
-                    addAttendance();
-                } else if (this.value.trim()) {
-                    openCreateFromSearch(this.value.trim());
-                }
-            }
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.search-wrapper')) suggestionsEl.style.display = 'none';
-        });
-
-        function selectPerson(name) {
-            selectedPerson = name;
-            searchInput.value = name;
-            suggestionsEl.style.display = 'none';
-        }
-
-        function openCreateFromSearch(name) {
-            const existing = getStudent(name);
-            if (existing && existing.active) {
-                selectPerson(name);
-                return;
-            }
-            if (existing && !existing.active) {
-                if (confirm(`"${name}" existe pero está inactivo. ¿Reactivar?`)) {
-                    existing.active = true;
-                    save();
-                    selectPerson(name);
-                    renderAll();
-                }
-                return;
-            }
-            const packStr = prompt(`Crear alumno "${name}".\n¿Cuántas clases tiene el pack? (0 si no tiene)`, '0');
-            if (packStr === null) return;
-            const pack = Math.max(0, parseInt(packStr) || 0);
-            studentsData.push({ name, pack, active: true });
-            studentsData.sort((a, b) => a.name.localeCompare(b.name));
-            save();
-            selectPerson(name);
-            suggestionsEl.style.display = 'none';
-            renderStudents();
-        }
-
-        // --- Attendance ---
-        function addAttendance() {
-            const date = document.getElementById('classDate').value;
-            const name = searchInput.value.trim();
-            if (!date) return alert('Selecciona una fecha');
-            if (!name) return alert('Selecciona un alumno');
-
-            const student = getStudent(name);
-            if (!student) return alert('El alumno no existe. Crealo primero.');
-            if (!student.active) return alert(`${name} está inactivo. Reactivalo primero.`);
-
-            if (!attendance[date]) attendance[date] = [];
-            if (attendance[date].includes(name)) {
-                searchInput.value = '';
-                selectedPerson = '';
-                return alert(`${name} ya tiene asistencia el ${formatDate(date)}`);
-            }
-
-            // Check pack
-            if (student.pack <= 0) {
-                if (!confirm(`${name} no tiene clases disponibles (pack: 0). ¿Registrar asistencia igual?`)) return;
-            }
-
-            // Deduct from pack
-            if (student.pack > 0) {
-                student.pack--;
-            }
-
-            attendance[date].push(name);
-            save();
-            searchInput.value = '';
-            selectedPerson = '';
-            renderAll();
-
-            // Post-add alerts
-            if (student.pack > 0 && student.pack <= 3) {
-                alert(`Aviso: a ${name} le quedan solo ${student.pack} clase${student.pack !== 1 ? 's' : ''}`);
-            } else if (student.pack === 0) {
-                alert(`${name} se quedó sin clases en el pack. Necesita recargar.`);
-            }
-        }
-
-        function removeAttendance(date, name) {
-            if (!attendance[date]) return;
-            if (!attendance[date].includes(name)) return;
-
-            attendance[date] = attendance[date].filter(n => n !== name);
-            if (attendance[date].length === 0) delete attendance[date];
-
-            // Refund class to pack
-            const student = getStudent(name);
-            if (student) {
-                student.pack++;
-            }
-
-            save();
-            renderAll();
-        }
-
-        // --- Students ---
-        function addStudent() {
-            const nameInput = document.getElementById('newStudentName');
-            const packInput = document.getElementById('newStudentPack');
-            const name = nameInput.value.trim();
-            const pack = Math.max(0, parseInt(packInput.value) || 0);
-
-            if (!name) return;
-            if (getStudent(name)) return alert('El alumno ya existe');
-
-            studentsData.push({ name, pack, active: true });
-            studentsData.sort((a, b) => a.name.localeCompare(b.name));
-            save();
-            nameInput.value = '';
-            packInput.value = '';
-            renderStudents();
-        }
-
-        document.getElementById('newStudentName').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') addStudent();
-        });
-
-        function toggleStudentStatus(name) {
-            const student = getStudent(name);
-            if (!student) return;
-            const action = student.active ? 'desactivar' : 'reactivar';
-            if (!confirm(`¿${action.charAt(0).toUpperCase() + action.slice(1)} a ${name}?`)) return;
-            student.active = !student.active;
-            save();
-            renderAll();
-        }
-
-        function deleteStudent(name) {
-            if (!confirm(`¿Eliminar a ${name} permanentemente? Se borrarán también sus asistencias.`)) return;
-            studentsData = studentsData.filter(s => s.name !== name);
-            for (const date in attendance) {
-                attendance[date] = attendance[date].filter(n => n !== name);
-                if (attendance[date].length === 0) delete attendance[date];
-            }
-            save();
-            renderAll();
-        }
-
-        // --- Recharge modal ---
-        function openRechargeModal(name) {
-            rechargeTarget = name;
-            const student = getStudent(name);
-            document.getElementById('rechargeInfo').textContent =
-                `${name} — Clases restantes: ${student.pack}`;
-            document.getElementById('rechargeAmount').value = '';
-            document.getElementById('rechargeModal').classList.add('show');
-            document.getElementById('rechargeAmount').focus();
-        }
-
-        function closeRechargeModal() {
-            document.getElementById('rechargeModal').classList.remove('show');
-            rechargeTarget = '';
-        }
-
-        function confirmRecharge() {
-            const amount = parseInt(document.getElementById('rechargeAmount').value);
-            if (!amount || amount < 1) return alert('Ingresa una cantidad válida');
-            const student = getStudent(rechargeTarget);
-            if (!student) return;
-            student.pack += amount;
-            save();
-            closeRechargeModal();
-            renderAll();
-        }
-
-        document.getElementById('rechargeAmount').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') confirmRecharge();
-        });
-
-        document.getElementById('rechargeModal').addEventListener('click', function(e) {
-            if (e.target === this) closeRechargeModal();
-        });
-
-        // --- Tabs ---
-        function switchTab(tab, btn) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            btn.classList.add('active');
-            ['attendance', 'students', 'weekly', 'inactive'].forEach(t => {
-                document.getElementById('tab-' + t).style.display = t === tab ? '' : 'none';
-            });
-            if (tab === 'weekly') renderWeeklySummary();
-            if (tab === 'inactive') renderInactive();
-        }
-
-        // --- Render ---
-        function formatDate(dateStr) {
-            const [y, m, d] = dateStr.split('-');
-            return `${d}/${m}/${y}`;
-        }
-
-        function esc(str) {
-            return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-        }
-
-        function renderAll() {
-            renderDayAttendance();
-            renderAttendanceHistory();
-            renderStudents();
-            renderWeeklySummary();
-            renderInactive();
-        }
-
-        function renderDayAttendance() {
-            const date = document.getElementById('classDate').value;
-            const el = document.getElementById('dayAttendance');
-            const list = attendance[date] || [];
-            if (!list.length) {
-                el.innerHTML = `<p class="empty-msg">No hay asistencias para ${date ? formatDate(date) : 'esta fecha'}</p>`;
-                return;
-            }
-
-            let alerts = '';
-            list.forEach(name => {
-                const student = getStudent(name);
-                if (student && student.pack > 0 && student.pack <= 3) {
-                    alerts += `<div class="alert-banner">A ${name} le quedan ${student.pack} clase${student.pack !== 1 ? 's' : ''}</div>`;
-                } else if (student && student.pack <= 0) {
-                    alerts += `<div class="alert-banner danger">${name} no tiene clases disponibles</div>`;
-                }
-            });
-
-            el.innerHTML = `<strong>Asistentes (${formatDate(date)}): ${list.length}</strong>
-                ${alerts}
-                <div class="table-wrap">
-                <table><thead><tr><th>Alumno</th><th>Restantes</th><th></th></tr></thead><tbody>
-                ${list.map(name => {
-                    const student = getStudent(name);
-                    const remaining = student ? student.pack : '?';
-                    const badgeCls = student ? getRemainingBadgeClass(student.pack) : '';
-                    return `<tr>
-                        <td>${name}</td>
-                        <td><span class="badge ${badgeCls}">${remaining}</span></td>
-                        <td><button class="btn-danger" onclick="removeAttendance('${date}','${esc(name)}')">Quitar</button></td>
-                    </tr>`;
-                }).join('')}
-                </tbody></table>
-                </div>`;
-        }
-
-        function renderAttendanceHistory() {
-            const el = document.getElementById('attendanceHistory');
-            const weekStr = document.getElementById('filterWeek').value;
-            const weekDates = getWeekDates(weekStr);
-            const dates = Object.keys(attendance).filter(d => weekDates.includes(d)).sort().reverse();
-
-            if (!dates.length) {
-                el.innerHTML = '<p class="empty-msg">No hay asistencias en esta semana</p>';
-                return;
-            }
-
-            el.innerHTML = dates.map(date => {
-                const list = attendance[date];
-                return `<div style="margin-top:12px;">
-                    <strong>${formatDate(date)}</strong> — ${list.length} asistente${list.length !== 1 ? 's' : ''}
-                    <div style="margin-top:4px;">${list.map(n => `<span class="badge">${n}</span> `).join('')}</div>
-                </div>`;
-            }).join('');
-        }
-
-        function renderStudents() {
-            const body = document.getElementById('studentsBody');
-            const active = getActiveStudents();
-            if (!active.length) {
-                body.innerHTML = '<tr><td colspan="4" class="empty-msg">No hay alumnos activos</td></tr>';
-                return;
-            }
-            body.innerHTML = active.map(s => {
-                const total = getTotalClasses(s.name);
-                const badgeCls = getRemainingBadgeClass(s.pack);
-                return `<tr>
-                    <td><span class="status-dot active"></span>${s.name}</td>
-                    <td><span class="badge ${badgeCls}">${s.pack}</span></td>
-                    <td><span class="badge">${total}</span></td>
-                    <td class="actions-cell">
-                        <button class="btn-primary btn-sm" onclick="openRechargeModal('${esc(s.name)}')">Recargar</button>
-                        <button class="btn-warning" onclick="toggleStudentStatus('${esc(s.name)}')">Desactivar</button>
-                        <button class="btn-danger" onclick="deleteStudent('${esc(s.name)}')">Eliminar</button>
-                    </td>
-                </tr>`;
-            }).join('');
-        }
-
-        function renderInactive() {
-            const body = document.getElementById('inactiveBody');
-            const inactive = getInactiveStudents();
-            if (!inactive.length) {
-                body.innerHTML = '<tr><td colspan="4" class="empty-msg">No hay alumnos inactivos</td></tr>';
-                return;
-            }
-            body.innerHTML = inactive.map(s => {
-                const total = getTotalClasses(s.name);
-                return `<tr style="opacity:0.7;">
-                    <td><span class="status-dot inactive"></span>${s.name}</td>
-                    <td><span class="badge badge-inactive">${s.pack}</span></td>
-                    <td><span class="badge">${total}</span></td>
-                    <td class="actions-cell">
-                        <button class="btn-success btn-sm" onclick="toggleStudentStatus('${esc(s.name)}')">Reactivar</button>
-                        <button class="btn-danger" onclick="deleteStudent('${esc(s.name)}')">Eliminar</button>
-                    </td>
-                </tr>`;
-            }).join('');
-        }
-
-        function renderWeeklySummary() {
-            const body = document.getElementById('weeklyBody');
-            const weekStr = document.getElementById('summaryWeek').value;
-            const weekDates = getWeekDates(weekStr);
-
-            const counts = {};
-            weekDates.forEach(date => {
-                (attendance[date] || []).forEach(name => {
-                    counts[name] = (counts[name] || 0) + 1;
-                });
-            });
-
-            const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-            if (!entries.length) {
-                body.innerHTML = '<tr><td colspan="2" class="empty-msg">Sin asistencias esta semana</td></tr>';
-                return;
-            }
-            body.innerHTML = entries.map(([name, count]) =>
-                `<tr><td>${name}</td><td><span class="badge">${count}</span></td></tr>`
-            ).join('');
-        }
-
-        document.getElementById('classDate').addEventListener('change', renderDayAttendance);
-
-        init();
-    </script>
+    <script type="module" src="/src/main.js"></script>
 </body>
 </html>
