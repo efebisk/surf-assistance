@@ -3,138 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control de Asistencia</title>
+    <title>Surf Assistance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --ocean:      #0096a0;
+            --ocean-dark: #006d75;
+            --ocean-light:#e0f7f8;
+            --navy:       #0d2137;
+            --sand:       #f5f0e8;
+            --white:      #ffffff;
+            --text:       #1a2e3b;
+            --text-muted: #5a7184;
+            --border:     #dce8ea;
+            --success:    #1db87e;
+            --success-bg: #d4f5e9;
+            --warn:       #f59e0b;
+            --warn-bg:    #fef3c7;
+            --danger:     #e63946;
+            --danger-bg:  #fde8ea;
+            --shadow-sm:  0 1px 4px rgba(0,0,0,0.07);
+            --shadow-md:  0 4px 16px rgba(0,0,0,0.10);
+            --radius:     12px;
+            --radius-sm:  8px;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; padding: 12px; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--sand);
+            color: var(--text);
+            padding: 16px;
+        }
         .container { max-width: 900px; margin: 0 auto; }
-        h1 { text-align: center; margin-bottom: 20px; color: #1a1a2e; font-size: 1.5rem; }
-        h2 { margin-bottom: 12px; color: #1a1a2e; font-size: 1.05rem; }
+        h1 { text-align: center; margin-bottom: 24px; color: var(--navy); font-size: 1.5rem; font-weight: 700; }
+        h2 { margin-bottom: 14px; color: var(--navy); font-size: 1rem; font-weight: 600; }
 
         .card {
-            background: #fff;
-            border-radius: 10px;
-            padding: 16px;
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 20px;
             margin-bottom: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
         }
 
         .row { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; }
 
-        label { display: block; font-size: 0.82rem; color: #555; margin-bottom: 4px; }
+        label { display: block; font-size: 0.78rem; font-weight: 500; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.04em; }
         input, select {
-            padding: 9px 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
+            padding: 10px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
             font-size: 0.95rem;
+            font-family: 'Poppins', sans-serif;
             outline: none;
-            transition: border-color 0.2s;
+            transition: border-color 0.2s, box-shadow 0.2s;
             -webkit-appearance: none;
+            background: var(--white);
+            color: var(--text);
         }
-        input:focus, select:focus { border-color: #4361ee; }
+        input:focus, select:focus {
+            border-color: var(--ocean);
+            box-shadow: 0 0 0 3px rgba(0,150,160,0.12);
+        }
 
         button {
-            padding: 9px 16px;
+            padding: 10px 18px;
             border: none;
-            border-radius: 6px;
+            border-radius: var(--radius-sm);
             cursor: pointer;
             font-size: 0.88rem;
             font-weight: 600;
-            transition: opacity 0.2s;
+            font-family: 'Poppins', sans-serif;
+            transition: transform 0.1s, opacity 0.2s;
             white-space: nowrap;
         }
-        button:hover { opacity: 0.85; }
+        button:hover { opacity: 0.88; }
         button:active { transform: scale(0.97); }
 
-        .btn-primary  { background: #4361ee; color: #fff; }
-        .btn-success  { background: #2ec4b6; color: #fff; }
-        .btn-danger   { background: #e63946; color: #fff; font-size: 0.78rem; padding: 5px 10px; }
-        .btn-warning  { background: #f4a261; color: #fff; font-size: 0.78rem; padding: 5px 10px; }
-        .btn-secondary{ background: #6c757d; color: #fff; font-size: 0.78rem; padding: 5px 10px; }
-        .btn-debt     { background: #e63946; color: #fff; font-size: 0.78rem; padding: 5px 10px; }
-        .btn-sm       { font-size: 0.78rem; padding: 5px 10px; }
+        .btn-primary  { background: var(--ocean); color: #fff; }
+        .btn-success  { background: var(--success); color: #fff; }
+        .btn-danger   { background: var(--danger); color: #fff; font-size: 0.78rem; padding: 6px 12px; border-radius: 6px; }
+        .btn-warning  { background: var(--warn); color: #fff; font-size: 0.78rem; padding: 6px 12px; border-radius: 6px; }
+        .btn-secondary{ background: #e4edf0; color: var(--text-muted); font-size: 0.78rem; padding: 6px 12px; border-radius: 6px; }
+        .btn-debt     { background: var(--danger); color: #fff; font-size: 0.78rem; padding: 6px 12px; border-radius: 6px; }
+        .btn-sm       { font-size: 0.78rem; padding: 6px 12px; border-radius: 6px; }
 
         .search-wrapper { position: relative; flex: 1; min-width: 180px; }
         .search-wrapper input { width: 100%; }
         .suggestions {
             position: absolute; top: 100%; left: 0; right: 0;
-            background: #fff; border: 1px solid #ddd; border-top: none;
-            border-radius: 0 0 6px 6px; max-height: 180px; overflow-y: auto;
+            background: var(--white);
+            border: 1.5px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+            max-height: 200px; overflow-y: auto;
             z-index: 10; display: none;
+            box-shadow: var(--shadow-md);
         }
-        .suggestions div { padding: 10px 12px; cursor: pointer; font-size: 0.9rem; }
-        .suggestions div:hover { background: #e8edff; }
-        .suggestions .new-person { color: #4361ee; font-style: italic; }
-        .suggestions .meta-info { float: right; font-size: 0.78rem; color: #888; font-style: normal; }
+        .suggestions div { padding: 10px 14px; cursor: pointer; font-size: 0.9rem; }
+        .suggestions div:hover { background: var(--ocean-light); }
+        .suggestions .new-person { color: var(--ocean); font-style: italic; }
+        .suggestions .meta-info { float: right; font-size: 0.76rem; color: var(--text-muted); font-style: normal; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 8px; }
         th, td {
-            padding: 8px 10px; text-align: left;
-            border-bottom: 1px solid #eee; font-size: 0.85rem;
+            padding: 10px 12px; text-align: left;
+            border-bottom: 1px solid var(--border); font-size: 0.85rem;
         }
         th {
-            background: #f8f9fa; color: #555; font-weight: 600;
-            font-size: 0.75rem; text-transform: uppercase;
+            background: var(--sand); color: var(--text-muted); font-weight: 600;
+            font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em;
             position: sticky; top: 0;
         }
-        tr:hover { background: #f8f9fa; }
+        tr:hover td { background: var(--ocean-light); }
 
-        .empty-msg { text-align: center; color: #999; padding: 20px; font-size: 0.9rem; }
+        .empty-msg { text-align: center; color: var(--text-muted); padding: 28px; font-size: 0.9rem; }
 
-        .tabs { display: flex; gap: 4px; margin-bottom: 14px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .tabs { display: flex; gap: 6px; margin-bottom: 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .tab {
-            padding: 8px 14px; border: none; background: #e8edff;
-            border-radius: 6px 6px 0 0; cursor: pointer; font-size: 0.82rem;
-            color: #4361ee; white-space: nowrap; flex-shrink: 0;
+            padding: 8px 16px; border: none;
+            background: var(--sand);
+            border-radius: 20px;
+            cursor: pointer; font-size: 0.82rem; font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-muted); white-space: nowrap; flex-shrink: 0;
+            border: 1.5px solid var(--border);
+            transition: all 0.2s;
         }
-        .tab.active { background: #4361ee; color: #fff; }
+        .tab.active { background: var(--ocean); color: #fff; border-color: var(--ocean); }
 
         .badge {
-            display: inline-block; background: #e8edff; color: #4361ee;
-            padding: 2px 8px; border-radius: 10px; font-size: 0.78rem; font-weight: 600;
+            display: inline-block; background: var(--ocean-light); color: var(--ocean-dark);
+            padding: 2px 10px; border-radius: 20px; font-size: 0.76rem; font-weight: 600;
         }
-        .badge-ok       { background: #d4edda; color: #155724; }
-        .badge-warn     { background: #fff3cd; color: #856404; }
-        .badge-danger   { background: #f8d7da; color: #721c24; }
-        .badge-debt     { background: #e63946; color: #fff; }
-        .badge-inactive { background: #e2e3e5; color: #6c757d; }
+        .badge-ok       { background: var(--success-bg); color: #0a6644; }
+        .badge-warn     { background: var(--warn-bg); color: #92610a; }
+        .badge-danger   { background: var(--danger-bg); color: #9b1c26; }
+        .badge-debt     { background: var(--danger); color: #fff; }
+        .badge-inactive { background: #e4edf0; color: var(--text-muted); }
 
         .status-dot {
             display: inline-block; width: 8px; height: 8px;
             border-radius: 50%; margin-right: 6px; vertical-align: middle;
         }
-        .status-dot.active   { background: #2ec4b6; }
+        .status-dot.active   { background: var(--success); }
         .status-dot.inactive { background: #adb5bd; }
 
         .alert-banner {
-            background: #fff3cd; border: 1px solid #ffc107; color: #856404;
-            padding: 8px 12px; border-radius: 6px; margin-top: 8px;
-            font-size: 0.82rem;
+            background: var(--warn-bg); border: 1px solid #fcd34d; color: #92610a;
+            padding: 9px 14px; border-radius: var(--radius-sm); margin-top: 8px;
+            font-size: 0.82rem; font-weight: 500;
         }
         .alert-banner.danger {
-            background: #f8d7da; border-color: #f5c6cb; color: #721c24;
+            background: var(--danger-bg); border-color: #fca5ab; color: #9b1c26;
         }
 
-        .actions-cell { display: flex; gap: 4px; flex-wrap: wrap; }
+        .actions-cell { display: flex; gap: 5px; flex-wrap: wrap; }
         .pack-input { width: 70px; }
 
         /* Modal */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.4); z-index: 100;
+            background: rgba(13,33,55,0.45); z-index: 100;
             justify-content: center; align-items: center; padding: 16px;
+            backdrop-filter: blur(2px);
         }
         .modal-overlay.show { display: flex; }
         .modal {
-            background: #fff; border-radius: 10px; padding: 20px;
-            width: 100%; max-width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            background: var(--white); border-radius: var(--radius); padding: 24px;
+            width: 100%; max-width: 400px; box-shadow: var(--shadow-md);
         }
-        .modal h3 { margin-bottom: 14px; color: #1a1a2e; font-size: 1rem; }
+        .modal h3 { margin-bottom: 16px; color: var(--navy); font-size: 1.05rem; font-weight: 700; }
         .modal input { width: 100%; }
-        .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+        .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
         .modal-debt-info {
-            background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24;
-            padding: 10px 12px; border-radius: 6px; margin-bottom: 14px;
+            background: var(--danger-bg); border: 1px solid #fca5ab; color: #9b1c26;
+            padding: 10px 14px; border-radius: var(--radius-sm); margin-bottom: 16px;
             font-size: 0.88rem; font-weight: 600;
         }
 
@@ -145,18 +193,35 @@
             min-height: 100vh;
             align-items: center;
             justify-content: center;
+            background: linear-gradient(160deg, var(--navy) 0%, var(--ocean-dark) 100%);
+            margin: -16px;
+            padding: 16px;
         }
-        #login-screen .card { width: 100%; max-width: 380px; }
-        #login-screen h1 { margin-bottom: 20px; }
-        #loginError { color: #e63946; font-size: 0.85rem; margin-bottom: 10px; display: none; }
+        #login-screen .card {
+            width: 100%; max-width: 380px;
+            border: none;
+            box-shadow: var(--shadow-md);
+        }
+        #login-screen h1 {
+            margin-bottom: 8px;
+            color: var(--navy);
+        }
+        #login-screen .login-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 24px;
+        }
+        #loginError { color: var(--danger); font-size: 0.85rem; margin-bottom: 10px; display: none; font-weight: 500; }
 
         /* Loading */
         #loading-screen {
             min-height: 100vh;
             align-items: center;
             justify-content: center;
-            color: #999;
+            color: var(--text-muted);
             font-size: 0.95rem;
+            background: var(--sand);
         }
 
         /* App header */
@@ -166,24 +231,36 @@
             align-items: center;
             margin-bottom: 20px;
         }
-        .app-header h1 { margin: 0; text-align: left; }
+        .app-header h1 { margin: 0; text-align: left; font-size: 1.3rem; }
+        .app-header .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .app-header .logo-icon {
+            width: 36px; height: 36px;
+            background: var(--ocean);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem;
+        }
 
         @media (max-width: 600px) {
-            body { padding: 8px; }
-            .card { padding: 12px; }
-            h1 { font-size: 1.25rem; margin-bottom: 14px; }
+            body { padding: 10px; }
+            .card { padding: 14px; }
+            h1 { font-size: 1.2rem; margin-bottom: 16px; }
             .row { flex-direction: column; align-items: stretch; }
             .row > * { width: 100%; }
             button:not(.tab):not(.btn-sm):not(.btn-danger):not(.btn-warning):not(.btn-secondary):not(.btn-debt) { width: 100%; }
-            th, td { padding: 7px 6px; font-size: 0.8rem; }
+            th, td { padding: 8px 8px; font-size: 0.8rem; }
             .actions-cell { flex-direction: column; gap: 4px; }
             .actions-cell button { width: 100%; }
-            .tab { padding: 7px 10px; font-size: 0.78rem; }
+            .tab { padding: 7px 12px; font-size: 0.78rem; }
         }
 
         @media (min-width: 601px) and (max-width: 768px) {
-            .card { padding: 14px; }
-            .actions-cell button { font-size: 0.75rem; padding: 4px 8px; }
+            .card { padding: 16px; }
+            .actions-cell button { font-size: 0.75rem; padding: 5px 10px; }
         }
     </style>
 </head>
@@ -197,12 +274,13 @@
     <!-- Login -->
     <div id="login-screen" style="display:none;">
         <div class="card">
-            <h1>Control de Asistencia</h1>
-            <div style="margin-bottom:12px;">
+            <h1>🏄 Surf Assistance</h1>
+            <p class="login-subtitle">Control de asistencia para clases de surf</p>
+            <div style="margin-bottom:14px;">
                 <label for="loginEmail">Email</label>
                 <input type="email" id="loginEmail" placeholder="tu@email.com" style="width:100%;">
             </div>
-            <div style="margin-bottom:16px;">
+            <div style="margin-bottom:20px;">
                 <label for="loginPassword">Contraseña</label>
                 <input type="password" id="loginPassword" style="width:100%;">
             </div>
@@ -215,7 +293,10 @@
     <div id="app-screen" style="display:none;">
         <div class="container">
             <div class="app-header">
-                <h1>Control de Asistencia</h1>
+                <div class="header-logo">
+                    <div class="logo-icon">🏄</div>
+                    <h1>Surf Assistance</h1>
+                </div>
                 <button class="btn-secondary btn-sm" onclick="logout()">Salir</button>
             </div>
 
