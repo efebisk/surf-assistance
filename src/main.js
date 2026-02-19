@@ -429,22 +429,8 @@ function renderDayAttendance() {
         return;
     }
 
-    let alerts = '';
-    list.forEach(name => {
-        const s = getStudent(name);
-        if (!s) return;
-        if (s.debt > 0) {
-            alerts += `<div class="alert-banner danger">${name} tiene deuda de ${s.debt} clase${s.debt !== 1 ? 's' : ''}</div>`;
-        } else if (s.pack > 0 && s.pack <= 3) {
-            alerts += `<div class="alert-banner">A ${name} le quedan ${s.pack} clase${s.pack !== 1 ? 's' : ''}</div>`;
-        } else if (s.pack === 0) {
-            alerts += `<div class="alert-banner danger">${name} no tiene clases en el pack</div>`;
-        }
-    });
-
     el.innerHTML = `
         <strong>Asistentes (${formatDate(date)}): ${list.length}</strong>
-        ${alerts}
         <div class="table-wrap">
         <table><thead><tr><th>Alumno</th><th>Pack</th><th>Deuda</th><th></th></tr></thead><tbody>
         ${list.map(name => {
