@@ -239,6 +239,7 @@ async function addAttendance() {
     document.getElementById('personSearch').value = '';
     selectedPerson = '';
     renderAll();
+    showToast(`${name} — asistencia registrada`, 'success');
 
     await Promise.all([
         updateStudentDoc(student.id, updates),
@@ -265,6 +266,7 @@ async function removeAttendance(date, name) {
     }
 
     renderAll();
+    showToast(`Asistencia de ${name} eliminada`, 'danger');
 
     const ops = [updateStudentDoc(student.id, updates)];
     if (attendance[date].length === 0) {
@@ -294,6 +296,7 @@ async function addStudent() {
     nameInput.value = '';
     packInput.value = '';
     renderStudents();
+    showToast(`${name} agregado`, 'success');
 }
 
 async function toggleStudentStatus(name) {
@@ -311,6 +314,7 @@ async function toggleStudentStatus(name) {
     if (!ok) return;
     student.active = !student.active;
     renderAll();
+    showToast(student.active ? `${name} reactivado` : `${name} desactivado`);
     await updateStudentDoc(student.id, { active: student.active });
 }
 
@@ -337,6 +341,7 @@ async function deleteStudent(name) {
 
     studentsData = studentsData.filter(s => s.name !== name);
     renderAll();
+    showToast(`${name} eliminado`, 'danger');
     await Promise.all(ops);
 }
 
@@ -359,6 +364,7 @@ async function confirmRecharge() {
     student.pack += amount;
     closeModal('rechargeModal');
     renderAll();
+    showToast(`Pack recargado +${amount}`, 'success');
     await updateStudentDoc(student.id, { pack: student.pack });
 }
 
@@ -382,6 +388,7 @@ async function confirmPayDebt() {
     student.debt -= amount;
     closeModal('debtModal');
     renderAll();
+    showToast('Deuda cobrada', 'success');
     await updateStudentDoc(student.id, { debt: student.debt });
 }
 
@@ -616,6 +623,41 @@ function renderWeeklySummary() {
     ).join('');
 }
 
+// --- Toast ---
+function showToast(message, type = '') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = `toast${type ? ' ' + type : ''}`;
+    toast.textContent = message;
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+    }, 2500);
+}
+
+// --- Mobile page navigation ---
+function switchPage(page, btn) {
+    document.querySelectorAll('.bottom-nav-item').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    const regCard  = document.getElementById('registration-card');
+    const tabsCard = document.getElementById('tabs-card');
+
+    if (page === 'hoy') {
+        regCard.style.display  = '';
+        tabsCard.style.display = 'none';
+    } else {
+        regCard.style.display  = 'none';
+        tabsCard.style.display = '';
+        const show = page === 'alumnos' ? ['students', 'inactive'] : ['attendance', 'weekly'];
+        ['attendance', 'students', 'weekly', 'inactive'].forEach(t => {
+            document.getElementById('tab-' + t).style.display = show.includes(t) ? '' : 'none';
+        });
+        if (page === 'historial') renderWeeklySummary();
+    }
+}
+
 // --- Custom dialogs ---
 function showAlert(message) {
     return new Promise(resolve => {
@@ -711,6 +753,9 @@ async function initApp() {
     });
 
     renderAll();
+    if (window.innerWidth <= 600) {
+        switchPage('hoy', document.querySelector('.bottom-nav-item'));
+    }
     showScreen('app-screen');
 }
 
@@ -737,4 +782,5 @@ Object.assign(window, {
     switchTab,
     renderAttendanceHistory, renderWeeklySummary,
     closeAlert, closeConfirm, closePrompt,
+    switchPage,
 });

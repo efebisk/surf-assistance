@@ -277,8 +277,72 @@
 
         .student-card-list { display: none; }
 
+        /* Toast */
+        #toast-container {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 200;
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            gap: 8px;
+            pointer-events: none;
+        }
+        .toast {
+            background: var(--navy);
+            color: white;
+            padding: 10px 22px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+            animation: toastIn 0.25s ease;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+            box-shadow: var(--shadow-md);
+        }
+        .toast.success { background: var(--success); }
+        .toast.danger  { background: var(--danger); }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Bottom nav */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: var(--white);
+            border-top: 1.5px solid var(--border);
+            z-index: 50;
+            padding: 6px 0 env(safe-area-inset-bottom, 6px);
+            box-shadow: 0 -2px 12px rgba(0,0,0,0.07);
+        }
+        .bottom-nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 6px 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 0.68rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .bottom-nav-item:hover { opacity: 1; }
+        .bottom-nav-item.active { color: var(--ocean); }
+        .bottom-nav-icon { font-size: 1.4rem; line-height: 1; }
+
         @media (max-width: 600px) {
-            body { padding: 10px; }
+            body { padding: 10px; padding-bottom: 80px; }
             .card { padding: 14px; }
             h1 { font-size: 1.2rem; margin-bottom: 16px; }
             .row { flex-direction: column; align-items: stretch; }
@@ -291,6 +355,10 @@
 
             .student-card-list { display: block; }
             .student-table-wrap { display: none; }
+
+            .bottom-nav { display: flex; }
+            .tabs { display: none !important; }
+            #toast-container { bottom: 85px; }
         }
 
         @media (min-width: 601px) and (max-width: 768px) {
@@ -336,7 +404,7 @@
             </div>
 
             <!-- Registro de asistencia -->
-            <div class="card">
+            <div class="card" id="registration-card">
                 <h2>Registrar Asistencia</h2>
                 <div class="row" style="margin-bottom: 12px;">
                     <div style="flex:1;">
@@ -356,7 +424,7 @@
             </div>
 
             <!-- Vistas -->
-            <div class="card">
+            <div class="card" id="tabs-card">
                 <div class="tabs">
                     <button class="tab active" onclick="switchTab('attendance', this)">Asistencias</button>
                     <button class="tab" onclick="switchTab('students', this)">Alumnos</button>
@@ -467,6 +535,25 @@
             </div>
         </div>
     </div>
+
+    <!-- Toast container -->
+    <div id="toast-container"></div>
+
+    <!-- Bottom navigation -->
+    <nav class="bottom-nav">
+        <button class="bottom-nav-item active" onclick="switchPage('hoy', this)">
+            <span class="bottom-nav-icon">🌊</span>
+            <span>Hoy</span>
+        </button>
+        <button class="bottom-nav-item" onclick="switchPage('alumnos', this)">
+            <span class="bottom-nav-icon">👥</span>
+            <span>Alumnos</span>
+        </button>
+        <button class="bottom-nav-item" onclick="switchPage('historial', this)">
+            <span class="bottom-nav-icon">📋</span>
+            <span>Historial</span>
+        </button>
+    </nav>
 
     <!-- Modal: alerta -->
     <div class="modal-overlay" id="alertModal">
