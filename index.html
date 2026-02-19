@@ -245,6 +245,38 @@
             font-size: 1.1rem;
         }
 
+        /* Student cards */
+        .student-card {
+            background: var(--white);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            box-shadow: var(--shadow-sm);
+        }
+        .student-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .student-avatar {
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem; font-weight: 700; color: #fff;
+            flex-shrink: 0;
+        }
+        .student-info { flex: 1; min-width: 0; }
+        .student-name { font-weight: 600; font-size: 0.95rem; color: var(--navy); }
+        .student-meta { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+        .student-card-actions {
+            display: flex; gap: 6px; flex-wrap: wrap;
+        }
+        .student-card-actions button { flex: 1; min-width: 80px; }
+
+        .student-card-list { display: none; }
+
         @media (max-width: 600px) {
             body { padding: 10px; }
             .card { padding: 14px; }
@@ -256,6 +288,9 @@
             .actions-cell { flex-direction: column; gap: 4px; }
             .actions-cell button { width: 100%; }
             .tab { padding: 7px 12px; font-size: 0.78rem; }
+
+            .student-card-list { display: block; }
+            .student-table-wrap { display: none; }
         }
 
         @media (min-width: 601px) and (max-width: 768px) {
@@ -351,7 +386,8 @@
                         </div>
                         <button class="btn-success" onclick="addStudent()">Crear</button>
                     </div>
-                    <div class="table-wrap">
+                    <div class="student-card-list" id="studentsCards"></div>
+                    <div class="table-wrap student-table-wrap">
                         <table>
                             <thead><tr>
                                 <th>Alumno</th>
@@ -382,7 +418,8 @@
                 <!-- Inactivos -->
                 <div id="tab-inactive" style="display:none;">
                     <p style="font-size:0.85rem; color:#888; margin-bottom:10px;">Alumnos que ya no asisten. Podés reactivarlos si vuelven.</p>
-                    <div class="table-wrap">
+                    <div class="student-card-list" id="inactiveCards"></div>
+                    <div class="table-wrap student-table-wrap">
                         <table>
                             <thead><tr>
                                 <th>Alumno</th>

@@ -65,6 +65,23 @@ function packBadgeClass(pack) {
     return 'badge-ok';
 }
 
+const AVATAR_COLORS = [
+    '#0096a0','#006d75','#0d6efd','#6610f2',
+    '#198754','#d63384','#fd7e14','#0dcaf0',
+];
+
+function avatarColor(name) {
+    let hash = 0;
+    for (const c of name) hash = (hash * 31 + c.charCodeAt(0)) & 0xffffffff;
+    return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length];
+}
+
+function avatarInitials(name) {
+    const parts = name.trim().split(' ').filter(Boolean);
+    if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+    return name.slice(0, 2).toUpperCase();
+}
+
 function formatDate(dateStr) {
     const [y, m, d] = dateStr.split('-');
     return `${d}/${m}/${y}`;
@@ -443,11 +460,15 @@ function renderAttendanceHistory() {
 
 function renderStudents() {
     const body   = document.getElementById('studentsBody');
+    const cards  = document.getElementById('studentsCards');
     const active = getActiveStudents();
+
     if (!active.length) {
-        body.innerHTML = '<tr><td colspan="5" class="empty-msg">No hay alumnos activos</td></tr>';
+        body.innerHTML  = '<tr><td colspan="5" class="empty-msg">No hay alumnos activos</td></tr>';
+        cards.innerHTML = '<p class="empty-msg">No hay alumnos activos</p>';
         return;
     }
+
     body.innerHTML = active.map(s => {
         const total     = getTotalClasses(s.name);
         const debt      = s.debt || 0;
@@ -470,15 +491,49 @@ function renderStudents() {
             </td>
         </tr>`;
     }).join('');
+
+    cards.innerHTML = active.map(s => {
+        const total = getTotalClasses(s.name);
+        const debt  = s.debt || 0;
+        const debtBadge = debt > 0
+            ? `<span class="badge badge-debt">Debe ${debt}</span>`
+            : '';
+        const debtBtn = debt > 0
+            ? `<button class="btn-debt btn-sm" onclick="openDebtModal('${esc(s.name)}')">Cobrar deuda</button>`
+            : '';
+        return `<div class="student-card">
+            <div class="student-card-header">
+                <div class="student-avatar" style="background:${avatarColor(s.name)}">${avatarInitials(s.name)}</div>
+                <div class="student-info">
+                    <div class="student-name">${s.name}</div>
+                    <div class="student-meta">
+                        <span class="badge ${packBadgeClass(s.pack)}">${s.pack} clases</span>
+                        ${debtBadge}
+                        <span class="badge badge-inactive">${total} asistidas</span>
+                    </div>
+                </div>
+            </div>
+            <div class="student-card-actions">
+                <button class="btn-primary btn-sm" onclick="openRechargeModal('${esc(s.name)}')">Recargar</button>
+                ${debtBtn}
+                <button class="btn-warning btn-sm" onclick="toggleStudentStatus('${esc(s.name)}')">Desactivar</button>
+                <button class="btn-danger btn-sm" onclick="deleteStudent('${esc(s.name)}')">Eliminar</button>
+            </div>
+        </div>`;
+    }).join('');
 }
 
 function renderInactive() {
     const body     = document.getElementById('inactiveBody');
+    const cards    = document.getElementById('inactiveCards');
     const inactive = getInactiveStudents();
+
     if (!inactive.length) {
-        body.innerHTML = '<tr><td colspan="5" class="empty-msg">No hay alumnos inactivos</td></tr>';
+        body.innerHTML  = '<tr><td colspan="5" class="empty-msg">No hay alumnos inactivos</td></tr>';
+        cards.innerHTML = '<p class="empty-msg">No hay alumnos inactivos</p>';
         return;
     }
+
     body.innerHTML = inactive.map(s => {
         const total = getTotalClasses(s.name);
         const debt  = s.debt || 0;
@@ -492,6 +547,28 @@ function renderInactive() {
                 <button class="btn-danger"         onclick="deleteStudent('${esc(s.name)}')">Eliminar</button>
             </td>
         </tr>`;
+    }).join('');
+
+    cards.innerHTML = inactive.map(s => {
+        const total = getTotalClasses(s.name);
+        const debt  = s.debt || 0;
+        return `<div class="student-card" style="opacity:0.75;">
+            <div class="student-card-header">
+                <div class="student-avatar" style="background:#8fa3b0">${avatarInitials(s.name)}</div>
+                <div class="student-info">
+                    <div class="student-name">${s.name}</div>
+                    <div class="student-meta">
+                        <span class="badge badge-inactive">${s.pack} clases</span>
+                        ${debt > 0 ? `<span class="badge badge-debt">Debe ${debt}</span>` : ''}
+                        <span class="badge badge-inactive">${total} asistidas</span>
+                    </div>
+                </div>
+            </div>
+            <div class="student-card-actions">
+                <button class="btn-success btn-sm" onclick="toggleStudentStatus('${esc(s.name)}')">Reactivar</button>
+                <button class="btn-danger btn-sm" onclick="deleteStudent('${esc(s.name)}')">Eliminar</button>
+            </div>
+        </div>`;
     }).join('');
 }
 
